@@ -1,45 +1,51 @@
 ## Implementační dokumentace k 2. úloze do IPP 2019/2020
-### Jméno a příjmení: Michal Dostal
+### Jméno a příjmení: Michal Dostál
 ### Login: xdosta51
 
-### Spusteni skriptu
+### Spuštění skriptů
 
 #### interpret.py
-Program se spousti pomoci prikazu *python3.8 interpret.py*, kde na **STDIN** ceka bud *XML reprezentaci* jazyka *IPPCode20*, nebo data potrebna pro instrukci *read*.
-Skript dale podporuje argumenty *--source=file*, kde file je soubor s XML reprezentaci jiz zminovaneho kodu IPPCode20, *--input=file*,
-kde soubor file jsou potrebna data pro instrukci *read*, pokud jsou potreba. Dale podporuje prepinac *--help*, ktery se nesmi dale kombinovat s ostatnimi argumenty,
-jinak se jedna o chybu 10. Jelikoz tento skript podporuje rozsireni **STATI**, tak je mozne zadat argument *--stats=file*, kde file je jmeno souboru,
-kam se budou statistiky interpretu vypisovat. Tento argument je libovolne kombinovatelny s argumenty *--vars* pro vypis maximalniho poctu inicializovanych promennych
-ve vsech platnych ramcich, a taky argument *--insts* pro vypis poctu vykonanych instrukci. Pokud jsou zadany argumenty *--vars*, nebo *--insts* 
-bez argumentu *--stats=file*, program konci s chybou 10, v opacnem pripade skript vytvori prazdny soubor.
+Program se spouští pomocí příkazu *python3.8 interpret.py*, kde na **STDIN** očekává buď *XML reprezentaci* jazyka *IPPCode20*, nebo data potřebná pro instrukci *read*.
+Skript dále podporuje argumenty *--source=file*, kde file je soubor s XML reprezentací již zmiňovaného kódu IPPCode20, *--input=file*,
+kde soubor file jsou potřebná data pro instrukci *read*, pokud jsou potřeba. Dale podporuje přepínač *--help*, ktery se nesmí dále kombinovat s ostatními argumenty,
+jinak se jedna o chybu 10. Jelikož tento skript podporuje rozšíření **STATI**, tak je možné zadat argument *--stats=file*, kde file je jméno souboru,
+kam se budou statistiky interpretu vypisovat. Tento argument je libovolně kombinovatelný s argumenty *--vars* pro výpis maximálního počtu inicializovaných proměnných
+ve všech platných rámcích, a taky argument *--insts* pro výpis počtu vykonaných instrukcí. Pokud jsou zadany argumenty *--vars*, nebo *--insts* 
+bez argumentu *--stats=file*, program končí s chybou 10, v opačném případě skript vytvoří prázdný soubor.
 
 #### test.php
-Skript *test.php* se spousti pomoci prikazu *php7.4 test.php* s jeho volitelnymi argumenty *--directory=folder*, kde folder je slozka s testy, ktere mame prochazet.
-Dale skript podporuje argument *--recursive*, timto prepinacem se spusti prohledavani nejen v zadane slozce, ale i rekurzivne ve vsech jeho podadresarich. Bez 
-prepinacu *--int-only* a *--parse-only* testovaci ramec pracuje v rezimu both, kdy prvni spusti *parse.php* a na jeho vstup posle program napsany v jazyce *IPPCode20*, 
-vystup bude pote presmerovan do interpretu a pokud oba probehly bez chyby, provadi se **diff** nad ocekevanym vstupem a vystupem z testovaneho interpretu. Pokud je 
-zadan prepinac *--int-only*, tak se testuje pouze interpret a jako **.src** soubor bude *XML reprezentace* IPPCode20. S prepinacem *--parse-only* se testuje pouze
+Skript *test.php* se spouští pomocí příkazu *php7.4 test.php* s jeho volitelnými argumenty *--directory=folder*, kde folder je složka s testy, které máme procházet.
+Dále skript podporuje argument *--recursive*, tímto přepínačem se spustí prohledávání nejen v zadané složce, ale i rekurzivně ve všech jeho podadresářích. Bez 
+přepínačů *--int-only* a *--parse-only* testovací rámec pracuje v režimu *both*, kdy první spustí *parse.php* a na jeho vstup pošle program napsaný v jazyce *IPPCode20*, 
+výstup bude poté přesměrován do interpretu a pokud oba proběhly bez chyby, provádí se **diff** nad očekávaným vstupem a výstupem z testovaného interpretu. Pokud je 
+zadán přepínač *--int-only*, tak se testuje pouze interpret a jako **.src** soubor bude *XML reprezentace* IPPCode20. S přepínačem *--parse-only* se testuje pouze
 program *parse.php*.
 
-### interpret.py
-Skript **interpret.py** napsany v jazyce *python3.8* provadi interpretaci *XML reprezentace* jazyka *IPPCode20*. Tento skript neni napsany objektove orientovane a
-sklada se pouze z jednoho souboru *interpret.py*, po nacteni *XML reprezentace* se provadi kontrola spravnosti XML souboru, pokud tento soubor neni dobre formatovany,
-tak program konci s chybou 31. Hned pote se provadi syntakticka analyza, kde se kontroluje, jak spravny pocet argumentu k jednotlivym operacnim kodum, ale taky spravnost
-zapisu jednotlivych argumentu. Take se kontroluje, zda jednotlive argumenty vubec k operacnim kodum odpovidaji. V teto casti se take kontroluje unikatnost navesti, unikatnost poradi instrukce, a taky spravnost poradi instrukce. Postupne se sklada slovnik, ktery se naplni daty instrukce a klicem je poradi instrukce, ktere je 
-obsazeno v *XML souboru*. Pote, co jsou slovniky naplneny a syntakticka analyza probehla v poradku, se inicializuji ramce pro globalni, docasne a zasobnikove promenne.
-Pokud vsechno probehlo v poradku, tak se provadi jiz samotna interpretace, ktera muze v prubehu programu skoncit se semantickou chybou a podle toho odpovidajicim
-exit kodem. Pokud vse probehlo v poradku a interpretace se povedla a program dobehl do konce, program konci s chybovym kodem 0.
+### Skript: interpret.py
+Skript **interpret.py** napsaný v jazyce *python3.8* provádí interpretaci *XML reprezentace* jazyka *IPPCode20*. Tento skript není napsaný objektově orientovaně a
+skládá se pouze z jednoho souboru *interpret.py*, po načtení *XML reprezentace* se provádí kontrola správnosti XML souboru, pokud tento soubor není dobře formátovaný,
+tak program končí s chybou 31. Hned poté se provádí syntaktická analýza, kde se kontroluje, jak správný počet argumentů k jednotlivým operačním kódům, ale taky správnost
+zápisu jednotlivých argumentů. Také se kontroluje, zda jednotlivé argumenty vůbec k operačním kódum odpovídají. V této části se také kontroluje unikátnost návěští, unikátnost pořadí instrukce, a taky správnost pořadí instrukce. Postupně se skládá slovnik, který se naplni daty instrukce a klíčem je pořadí instrukce, které je 
+obsaženo v *XML souboru*. Poté, co jsou slovníky naplněny a syntaktická analýza proběhla v pořádku, se inicializují rámce pro globální, dočasné a zásobníkové proměnné.
+Pokud všechno proběhlo v pořádku, tak se provádí již samotná interpretace, která může v průběhu programu skončit se sémantickou chybou a podle toho odpovídajícím
+exit kódem. Pokud vše proběhlo v pořádku, interpretace se povedla a program doběhl do konce, program končí s kódem 0.
 
-### test.php
-Skript *test.php* po spravnem spusteni hleda v zadanem, pokud je, nebo aktualnim adresari, pomoci prikazu **exec(find)**, muze hledat rekurzivne, nebo nemusi,
-podle toho se nastavuje flag *max_depth*, ktery rika do jake hloubky ma prikaz *find* hledat. 
-Tento program muze bezet ve 3 rezimech:
- - Rezim: Both, nesmi byt zadany argumenty --int-only a --parse-only
- - Rezim: parse-only, pokud byl zadan argument --parse-only
- - Rezim: int-only, pokud byl zadan argument --int-only
- 
-Podle techto 3 rezimu se skript ridi a testuje jednotlive aplikace. v rezimu Both se nejprve provede preklad program IPPCode20 pomoci programu parse.php a jeho
-vystup se pote posle do skripu interpret.py. V rezimu parse-only se provadi pouze testovani aplikace parse.php, k porovnani vystupu ovsem nelze pouzit program 
-diff a proto je nutne pouzit aplikaci jexamxml, ktera se spousti prikazem *--java -jar*. Posledni rezim testuje program interpret.py a v *.src* souborech ocekava
-jiz prelozenou *XML Reprezentaci*. Skript muze koncit s chybou 10, 11, 12, pokud doslo k problemu se souborovym systemem, nebo s chybovym kodem 0 a prehlednou 
-stranku v HTML5, kde jsou obsazeny vsechny testy a znazorneny jednotlive adresare a jmena testu, ktere prosly, nebo selhaly vypise na **STDOUT**
+### Testovací rámec: test.php
+Skript *test.php* po správném spuštění hledá v zadaném, pokud je, nebo aktuálním adresáři, pomocí příkazu **exec(find)**, může hledat rekurzivně, nebo nemusí,
+podle toho se nastavuje flag *max_depth*, který říká do jaké hloubky ma příkaz *find* hledat. 
+Tento program může běžet ve 3 režimech:
+ - Režim: both, nesmí byt zadány argumenty --int-only a --parse-only
+ - Režim: parse-only, pokud byl zadán argument --parse-only
+ - Režim: int-only, pokud byl zadán argument --int-only
+
+Podle těchto 3 režimů se skript řídí a testuje jednotlivé aplikace. v režimu both se nejprve provede překlad programu IPPCode20 pomocí skriptu parse.php a jeho
+výstup se poté pošle do skriptu interpret.py. V režimu parse-only se provádí pouze testování aplikace parse.php, k porovnání výstupu ovšem nelze použít program 
+diff a proto je nutné použít aplikaci jexamxml, ktera se spouští příkazem *--java -jar*. Poslední režim testuje program interpret.py a v *.src* souborech očekává
+již přeloženou *XML Reprezentaci*. Skript může končit s chybou 10, 11, 12, pokud došlo k problému se souborovým systémem, nebo s chybovým kódem 0. Přehlednou 
+stránku v HTML5, kde jsou obsaženy jednotlivé adresáře a v tom příslušné testy, které prošly, nebo které selhaly vypíše na **STDOUT**.
+
+### Rozšíření
+V druhém projektu se mi podařilo implementovat rozšíření **STATI**, které je implementováno v části *interpret.py*. Toto rozšíření počítá maximální počet inicializovaných proměnných a počet vykonaných instrukcí. Počítadlo pro proměnné jsem implementoval tak, že při každé vykonané instrukce si do globalní proměnné 
+přičtu jedničku. Počítadlo pro proměnné už bylo horší a je implementováno tak, že při každém vykonání instrukce se spočítají proměnné ve všech platných rámcích, 
+provede se porovnání s globální proměnnou, která si pamatuje poslední maximální počet a pokud je nový počet větší, globální proměnná se přepíše. Důležité bylo ošetřit
+toto rozšíření u funkce EXIT, kdy je potřeba jednak skončit s potřebným chybovým kodem, ale taky nezapomenout před samotným ukončením vypsat do souboru potřebná data.
