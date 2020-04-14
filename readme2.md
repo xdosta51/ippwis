@@ -37,6 +37,7 @@ Tento program muze bezet ve 3 rezimech:
  - Rezim: Both, nesmi byt zadany argumenty --int-only a --parse-only
  - Rezim: parse-only, pokud byl zadan argument --parse-only
  - Rezim: int-only, pokud byl zadan argument --int-only
+ 
 Podle techto 3 rezimu se skript ridi a testuje jednotlive aplikace. v rezimu Both se nejprve provede preklad program IPPCode20 pomoci programu parse.php a jeho
 vystup se pote posle do skripu interpret.py. V rezimu parse-only se provadi pouze testovani aplikace parse.php, k porovnani vystupu ovsem nelze pouzit program 
 diff a proto je nutne pouzit aplikaci jexamxml, ktera se spousti prikazem *--java -jar*. Posledni rezim testuje program interpret.py a v *.src* souborech ocekava
